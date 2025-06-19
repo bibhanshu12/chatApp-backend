@@ -4,12 +4,12 @@ export interface User {
   password?: string;
   email: string;
   bio: string;
-  phoneNumber: string;
+  phoneNumber: number;
   gender: Gender;
 }
 
 export enum Gender {
-  Male,
-  Female,
-  Other,
+  Male = 'MALE',
+  Female = 'FEMALE',
+  Other = 'OTHER',
 }

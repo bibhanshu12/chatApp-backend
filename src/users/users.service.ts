@@ -21,6 +21,7 @@ export class UsersService {
     return user;
   }
 
+
   async createUser(user:User){
     const userd= await this.userModel.findOne({email:user.email});
     if(userd){
@@ -30,6 +31,8 @@ export class UsersService {
 
     return saveUser;
   }
+
+
   
 
 
