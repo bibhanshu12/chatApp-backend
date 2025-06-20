@@ -45,7 +45,14 @@ export class AuthService {
       const hashPw = await bcrypt.hash(createUserDto.password, 10);
       const secureUser = { ...createUserDto, password: hashPw };
       const createdUser = await this.userService.createUser(secureUser);
-      const token = this.authService.generateToken(createdUser, res);
+      const token = this.authService.generateToken(
+        {
+          _id: createdUser._id.toString(),
+          name: createdUser.name,
+          email: createdUser.email,
+        },
+        res,
+      );
       return {
         msg: 'User registered Successfully!',
         User: createdUser,
@@ -80,6 +87,10 @@ export class AuthService {
           HttpStatus.CONFLICT,
         );
       }
+      console.log('Attempting login for:', signInUserDto.email);
+      console.log('Fetched user:', fetchUser);
+      console.log('Stored password:', fetchUser?.password);
+
       const passwordCompare = await bcrypt.compare(
         signInUserDto.password,
         fetchUser.password,
@@ -88,7 +99,14 @@ export class AuthService {
         throw new ApiError('Wrong Password!', HttpStatus.CONFLICT);
       }
 
-      const token = this.authService.generateToken(fetchUser, res);
+      const token = this.authService.generateToken(
+        {
+          _id: fetchUser._id.toString(),
+          name: fetchUser.name,
+          email: fetchUser.email,
+        },
+        res,
+      );
 
       return {
         msg: 'Logged In successfully!',
@@ -96,14 +114,14 @@ export class AuthService {
         token: token,
       };
     } catch (err: any) {
-      throw new ApiError('caused Error while SignIn', HttpStatus.CONFLICT, err);
+      throw new ApiError('caused Error while signin', HttpStatus.CONFLICT, err);
     }
   }
 
-  signOut(res: Response): Promise<{ msg: string; status: HttpStatus }> {
+  signOut(res: Response): { msg: string; status: HttpStatus } {
     res.clearCookie('token');
     return {
-      msg: 'Cleared Cookie successfully',
+      msg: 'Signed out',
       status: HttpStatus.OK,
     };
   }

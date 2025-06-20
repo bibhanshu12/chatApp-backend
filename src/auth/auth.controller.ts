@@ -15,7 +15,7 @@ export class AuthController {
     return this.auth.registerUser(user, res);
   }
 
-  @Post('signIn')
+  @Post('signin')
   async Signin(
     @Body() signInUserDto: SignInUserDto,
     @Res({ passthrough: true }) res: Response,
@@ -23,7 +23,7 @@ export class AuthController {
     return this.auth.signIn(signInUserDto, res);
   }
   @Post('signout')
-  async signOut(@Res({ passthrough: true }) res: Response) {
+  signOut(@Res({ passthrough: true }) res: Response) {
     return this.auth.signOut(res);
   }
 }

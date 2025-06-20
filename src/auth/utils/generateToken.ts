@@ -1,25 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
-import { User } from 'src/types';
 
-// export interface JwtUserPayload {
-//   _id: string;
-//   email: string;
-//   name: string;
-// }
+export interface JwtUserPayload {
+  _id: string;
+  email: string;
+  name: string;
+}
 
 @Injectable()
 export class JwtTokenService {
   constructor(private jwtService: JwtService) {}
 
-  generateToken(user: User, res: Response): string {
-    // const payload = {
-    //   sub: user._id,
-    //   email: user.email,
-    //   name: user.name,
-    // };
-    const token = this.jwtService.sign(user);
+  generateToken(user: JwtUserPayload, res: Response): string {
+    const payload = {
+      sub: user._id.toString(),
+      email: user.email,
+      name: user.name,
+    };
+    const token = this.jwtService.sign(payload);
 
     res.cookie('token', token, {
       httpOnly: true,
@@ -27,6 +26,7 @@ export class JwtTokenService {
       maxAge: 1000 * 60 * 60 * 24,
       sameSite: 'lax',
     });
+    console.log('Payload:', user);
 
     return token;
   }
