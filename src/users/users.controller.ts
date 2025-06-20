@@ -5,11 +5,16 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private userService: UsersService) {}
 
-  @Get('all')
+  @Get('find')
   findUser(
-    @Body()
+    @Body('email')
     email: string,
   ) {
     return this.userService.findByEmail(email);
+  }
+
+  @Get('all')
+  findAllUser() {
+    return this.userService.allUser();
   }
 }

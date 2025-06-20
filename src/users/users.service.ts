@@ -14,13 +14,20 @@ export class UsersService {
 
 
   async findByEmail(email:string){
-    const user= await this.userModel.findOne({email})
+    console.log(email);
+    const user= await this.userModel.findOne({email}).select('-password').sort({createdAt:-1});
     if(!user){
         throw new ConflictException("No users found, Create one!")
     }
     return user;
   }
 
+  async allUser(){
+    const users=await this.userModel.find()
+    .select('-password')
+    .sort({ createdAt: -1 });
+    return users;
+  }
 
   async createUser(user:User){
     const userd= await this.userModel.findOne({email:user.email});
