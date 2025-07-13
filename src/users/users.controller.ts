@@ -1,4 +1,4 @@
-import { Body, Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Put, Req } from '@nestjs/common';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -17,4 +17,12 @@ export class UsersController {
   findAllUser() {
     return this.userService.allUser();
   }
+  @Put('update')
+  updatePhoto(@Req() req:Request,@Body('userPhoto') userPhoto:File){
+    const userId=req['user']._id;
+
+    return this.userService.updateUser(userId);
+  }
+
+
 }
