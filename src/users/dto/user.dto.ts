@@ -3,6 +3,7 @@ import {
   IsIn,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   MinLength,
 } from 'class-validator';
@@ -27,7 +28,12 @@ export class CreateUserDto {
 
   @MinLength(6)
   readonly password: string;
+
+  @IsOptional()
+  @IsString()
+  readonly profileUrl?: string;
 }
+
 export class SignInUserDto {
   @IsEmail()
   email: string;

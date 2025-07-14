@@ -27,6 +27,9 @@ export class UserSchemaClass {
 
   @Prop({ required: true })
   gender: Gender;
+
+  @Prop({ required: false })
+  profileUrl: string;
 }
 
 export const userSchema = SchemaFactory.createForClass(UserSchemaClass);
