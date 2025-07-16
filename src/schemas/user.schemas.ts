@@ -30,6 +30,9 @@ export class UserSchemaClass {
 
   @Prop({ required: false })
   profileUrl: string;
+
+  @Prop({ required: false })
+  coverUrl: string;
 }
 
 export const userSchema = SchemaFactory.createForClass(UserSchemaClass);
